@@ -3,8 +3,9 @@ require('dotenv').config()
 
 const authenticateToken = (req, res, next) => {
   const token = req.headers['authotization']
-
-  if (!token) {
+  const access = token.split(' ')
+  console.log('@@ token => ', access[1])
+  if (!access[1]) {
     return res.status(401).json ({
       massage: 'Unauthorized'
     })
