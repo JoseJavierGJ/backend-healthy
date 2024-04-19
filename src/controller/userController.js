@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+// const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 
@@ -51,5 +51,46 @@ const registerUser = async (req, res) => {
   }
 }
 
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.getAllUsers()
+    res.json({
+      users,
+      message: 'success'
+    })  
+  } catch (error) {
+    res.status(500).json({
+      message: 'Internal Server Error'
+    })
+  }
+}
 
-module.exports = { registerUser, loginUser }
+const deleteUser = async (req, res) => {
+  const userEmail = req.params.email
+  try {
+    await User.deleteUser(userEmail)
+    res.status(204).send()
+  } catch (error) {
+    res.status(500).json({
+      message: 'Internal Server Error'
+    })
+  }
+}
+
+const updateUser = async (req, res) => {
+  const userEmail = req.params.email
+  const userData = req.bosy
+  try {
+    const userUpdated = await User.updateUser(userEmail, userData)
+    res.json({
+      userUpdated,
+      message: 'success'
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: 'Internal Server Error'
+    })
+  }
+}
+
+module.exports = { registerUser, loginUser, getAllUsers, deleteUser, updateUser }
