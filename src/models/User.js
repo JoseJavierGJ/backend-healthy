@@ -8,6 +8,7 @@ class User extends IUser {
     super()
     this.email = email
     this.password = password
+    // nombre, apaterno, amaterno, direccion, telefono
   }
  
   static async createUser (email, password) {
